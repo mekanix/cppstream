@@ -19,8 +19,8 @@ int saberi(int i, int j = 3)
  *  int
  *  float
  *  char
- *  std::vector<T>
  *  std::string
+ *  std::vector<T>
  *  class Klasa
  */
 
@@ -90,7 +90,6 @@ int main()
   pc->godiste = 1998;
   std::cout << "PC proporcije su " << pc->proporcija() << '\n';
   delete pc;
-
 
   return 0;
 }
