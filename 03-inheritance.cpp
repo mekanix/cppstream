@@ -38,7 +38,7 @@ class Bird
 };
 
 
-class Pegasus : public Horse, Bird
+class Pegasus : public Horse, public Bird
 {
   public:
     Pegasus(const int &argLevel)
