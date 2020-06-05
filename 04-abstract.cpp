@@ -50,8 +50,10 @@ main()
 {
   Animal *a = new Horse();
   std::cout << '\n';
+
   a->move();
   std::cout << '\n';
+
   delete a;
   return 0;
 }
