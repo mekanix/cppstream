@@ -10,7 +10,6 @@
 using json = nlohmann::json;
 
 
-
 int
 main()
 {
@@ -23,7 +22,9 @@ main()
   try
   {
     curlpp::Cleanup myCleanup;
-    myRequest.setOpt(curlpp::Options::Url("http://freenit.hal9000.home.meka.rs:5000/api/v0/users"));
+    myRequest.setOpt(curlpp::Options::Url(
+      "http://freenit.hal9000.home.meka.rs:5000/api/v0/users"
+    ));
     curlpp::options::WriteStream ws(&buffer);
     myRequest.setOpt(ws);
     myRequest.perform();
