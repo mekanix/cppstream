@@ -17,11 +17,11 @@ class YesNo
 {
   public:
     explicit YesNo(bool yn) : yesno(yn) {}
-		std::string operator()() const
+    std::string operator()() const
     {
         return yesno ? "Yes" : "No";
     }
-		friend std::ostream &operator<<(std::ostream &strm, const YesNo &yn)
+    friend std::ostream &operator<<(std::ostream &strm, const YesNo &yn)
     {
         strm << yn();
         return strm;
@@ -40,13 +40,13 @@ struct MyCookie
     name = _name;
     cookies[name] = this;
   }
-	std::string name;
-	std::string value;
-	std::string domain;
-	std::string path;
-	time_t expires;
-	bool tail;
-	bool secure;
+  std::string name;
+  std::string value;
+  std::string domain;
+  std::string path;
+  time_t expires;
+  bool tail;
+  bool secure;
 
   static void print()
   {
@@ -77,58 +77,58 @@ std::map<std::string, MyCookie *> MyCookie::cookies;
 std::ostream &
 operator<<(std::ostream &strm, const MyCookie &cook)
 {
-	strm << "Cookie: '" << cook.name << "' (secure: " << YesNo(cook.secure) << ", tail: "
-		<< YesNo(cook.tail) << ") for domain: '" << cook.domain << "', "
-		<< "path: '" << cook.path << "'.\n";
-	strm << "Value: '" << cook.value << "'.\n";
-	strm << "Expires: '" << ctime(&cook.expires) << "'.\n";
+  strm << "Cookie: '" << cook.name << "' (secure: " << YesNo(cook.secure) << ", tail: "
+    << YesNo(cook.tail) << ") for domain: '" << cook.domain << "', "
+    << "path: '" << cook.path << "'.\n";
+  strm << "Value: '" << cook.value << "'.\n";
+  strm << "Expires: '" << ctime(&cook.expires) << "'.\n";
 
-	return strm;
+  return strm;
 }
 
 
 std::vector<std::string> &
 split_cookie_str(const std::string &str, std::vector<std::string> &in)
 {
-	std::string part;
-	std::istringstream strm(str);
-	while (getline(strm, part, '\t')) { in.push_back(part); }
-	return in;
+  std::string part;
+  std::istringstream strm(str);
+  while (getline(strm, part, '\t')) { in.push_back(part); }
+  return in;
 }
 
 
 std::vector<std::string>
 splitCookieStr(const std::string &str)
 {
-	std::vector<std::string> split;
-	split_cookie_str(str, split);
-	return split;
+  std::vector<std::string> split;
+  split_cookie_str(str, split);
+  return split;
 }
 
 
 std::vector<std::string> &
 splitCookieStr(const std::string &str, std::vector<std::string> &in)
 {
-	return split_cookie_str(str, in);
+  return split_cookie_str(str, in);
 }
 
 
 int StrToInt(const std::string &str)
 {
-	std::istringstream strm(str);
-	int i = 0;
-	if (!(strm >> i)) {
-		throw curlpp::RuntimeError("Unable to convert string '" + str + "' to integer!");
-	}
-	return i;
+  std::istringstream strm(str);
+  int i = 0;
+  if (!(strm >> i)) {
+    throw curlpp::RuntimeError("Unable to convert string '" + str + "' to integer!");
+  }
+  return i;
 }
 
 
 MyCookie *
 MakeCookie(const std::string &str_cookie)
 {
-	std::vector<std::string> vC = splitCookieStr(str_cookie);
-	auto cook = new MyCookie(vC[5]);
+  std::vector<std::string> vC = splitCookieStr(str_cookie);
+  auto cook = new MyCookie(vC[5]);
   std::string httponly = "#HttpOnly_";
 
   if (vC[0].substr(0, httponly.size()) == httponly)
@@ -139,13 +139,13 @@ MakeCookie(const std::string &str_cookie)
   {
     cook->domain = vC[0];
   }
-	cook->tail = vC[1] == "TRUE";
-	cook->path = vC[2];
-	cook->secure = vC[3] == "TRUE";
-	cook->expires = StrToInt(vC[4]);
-	cook->value = vC[6];
+  cook->tail = vC[1] == "TRUE";
+  cook->path = vC[2];
+  cook->secure = vC[3] == "TRUE";
+  cook->expires = StrToInt(vC[4]);
+  cook->value = vC[6];
 
-	return cook;
+  return cook;
 }
 
 
@@ -231,7 +231,7 @@ class UserApi : public RestApi
         std::list<std::string> header;
         header.push_back("Accept: application/json");
         _request.setOpt(new curlpp::options::HttpHeader(header));
-        // _request.setOpt(new curlpp::options::Verbose(true));
+        _request.setOpt(new curlpp::options::Verbose(true));
         for (const auto &cookie : MyCookie::curl())
         {
           _request.setOpt(cookie);
